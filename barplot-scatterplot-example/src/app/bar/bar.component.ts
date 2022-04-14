@@ -44,7 +44,7 @@ private drawBars(data: any[]): void {
   .attr("transform", "translate(0," + this.height + ")")
   .call(d3.axisBottom(x))
   .selectAll("text")
-  //.attr("transform", "translate(" + this.margin * 0.6 + ",0)rotate(-0)")
+  .attr("transform", "translate(0,0)rotate(-10)")
   .style("text-anchor", "middle");
 
   // Create the Y-axis band scale
@@ -63,7 +63,7 @@ private drawBars(data: any[]): void {
   .attr("y", -this.margin * 0.75)
   .attr("fill", "currentColor")
   .attr("text-anchor", "middle")
-  .text("Stars"))
+  .text("Overall rating"))
   //.select("text")
   .attr("transform", "translate(0,0)rotate(-90)");
 
