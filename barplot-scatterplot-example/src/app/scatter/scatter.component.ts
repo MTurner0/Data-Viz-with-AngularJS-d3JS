@@ -92,7 +92,7 @@ private drawPlot(data: any[]): void {
 
   ngOnInit(): void {
     this.createSvg();
-    d3.csv("./assets/recipes.csv").then(data => this.drawPlot(data));
+    d3.csv("assets/recipes.csv").then(data => this.drawPlot(data));
   }
 
 }

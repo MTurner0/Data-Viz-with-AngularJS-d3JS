@@ -76,7 +76,7 @@ private drawBars(data: any[]): void {
   ngOnInit(): void {
     this.createSvg();
     // Parse data from a CSV
-    d3.csv("./assets/recipes.csv").then(data => this.drawBars(data));
+    d3.csv("assets/recipes.csv").then(data => this.drawBars(data));
   }
 
 }
