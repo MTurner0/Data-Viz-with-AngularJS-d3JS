@@ -9,19 +9,11 @@ import { max } from 'd3';
 })
 export class ScatterComponent implements OnInit {
   
-  private data = [
-    {"Framework": "Vue", "Stars": "166443", "Released": "2014"},
-    {"Framework": "React", "Stars": "150793", "Released": "2013"},
-    {"Framework": "Angular", "Stars": "62342", "Released": "2016"},
-    {"Framework": "Backbone", "Stars": "27647", "Released": "2010"},
-    {"Framework": "Ember", "Stars": "21471", "Released": "2011"},
-  ]; 
   private svg;
   private margin = 50;
   private width = 750 - (this.margin * 2);
   private height = 400 - (this.margin * 2);
 
-  // Note that the createSvg() method for the scatterplot is the same as the bar plot
   private createSvg(): void {
     this.svg = d3.select("figure#scatter")
     .append("svg")
@@ -40,8 +32,6 @@ private drawPlot(data: any[]): void {
 
   this.svg.append("g")
   .attr("transform", "translate(0," + this.height + ")")
-  // tickFormat must be used when using dates instead of strings
-  //.call(d3.axisBottom(x).tickFormat(d3.format("d")));
   .call(d3.axisBottom(x));
 
   // Label X-axis
@@ -85,7 +75,7 @@ private drawPlot(data: any[]): void {
   .style("opacity", .5)
   .style("fill", "#9b490a");
 
-  /* Remove point labels
+  /* Remove point labels: points are too close together
   dots.selectAll("text")
   .data(data)
   .enter()
@@ -102,7 +92,7 @@ private drawPlot(data: any[]): void {
 
   ngOnInit(): void {
     this.createSvg();
-    d3.csv("/assets/recipes.csv").then(data => this.drawPlot(data));
+    d3.csv("./assets/recipes.csv").then(data => this.drawPlot(data));
   }
 
 }

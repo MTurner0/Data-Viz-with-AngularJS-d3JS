@@ -10,14 +10,6 @@ import { Selection } from 'd3-selection';
 
 export class BarComponent implements OnInit {
 
-  /* Hard-encoded data
-  private data = [
-    {"Framework": "Vue", "Stars": "166443", "Released": "2014"},
-    {"Framework": "React", "Stars": "150793", "Released": "2013"},
-    {"Framework": "Angular", "Stars": "62342", "Released": "2016"},
-    {"Framework": "Backbone", "Stars": "27647", "Released": "2010"},
-    {"Framework": "Ember", "Stars": "21471", "Released": "2011"},
-  ]; */
   private svg; //d3.Selection<SVGGElement, unknown, HTMLElement, any>; 
   private margin = 50;
   private width = 750 - (this.margin * 2);
@@ -84,7 +76,7 @@ private drawBars(data: any[]): void {
   ngOnInit(): void {
     this.createSvg();
     // Parse data from a CSV
-    d3.csv("/assets/recipes.csv").then(data => this.drawBars(data));
+    d3.csv("./assets/recipes.csv").then(data => this.drawBars(data));
   }
 
 }
