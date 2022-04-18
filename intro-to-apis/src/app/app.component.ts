@@ -1,14 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'; // add call to API
-import * as d3 from 'd3';
-import { DSVRowString } from 'd3';
-import { Observable, lastValueFrom } from 'rxjs';
+import { Component } from '@angular/core';
+// import { HttpClient } from '@angular/common/http'; // add call to API
+// import * as d3 from 'd3';
+// import { DSVRowString } from 'd3';
+// import { Observable, lastValueFrom } from 'rxjs';
+// import { Input } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+export class AppComponent {
+  title = 'intro-to-apis';
+}
+/*
 export class AppComponent implements OnInit {
   // Implementing OnInit
   constructor(private http: HttpClient){}
@@ -32,27 +37,26 @@ export class AppComponent implements OnInit {
       var cities = (await d3.csv('assets/tidy-citydata.csv'));
       this.weatherArray = new Array();
 
-      for (var i =0; i < cities.length; i++) {
+      for (var i =0; i < 5; i++) {
       this.weatherArray[i] = await lastValueFrom(this.callAPI(cities[i]))
       .then(data => data['main'])
       console.log('Getting ', i, '...')
-      }
-      console.log(this.weatherArray);
+      };
       
       
-      /* DEPRECIATED
+      
       .subscribe(response => {
         console.log('response success ', response);
         this.weatherArray = response['main'];
         console.log('Inside subscription:', this.weatherArray);
-      }) */
+      })
       
-      /* for (var i =0; i < 5; i++) {
+      for (var i =0; i < 5; i++) {
         this.callAPI(cities[i])
         .subscribe(response => {
           console.log('response success ', response);
           this.humidTempArray[i] = response['main'];
           //console.log('humidTempArray: ', this.humidTempArray[i])
-        }); */
+        }); 
       }
-}
+} */
