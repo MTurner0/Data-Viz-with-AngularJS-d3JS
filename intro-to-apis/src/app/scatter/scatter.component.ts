@@ -20,8 +20,17 @@ export class ScatterComponent implements OnInit {
   constructor(private http: HttpClient){}
 
   private weatherArray: Array<JSON>;
-  private humidData;
-  private tempData;
+
+  // Create Tooltip
+  private Tooltip = d3.select("figure#scatter")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "2px")
+    .style("border-radius", "5px")
+    .style("padding", "5px")
 
   // Data collection
 
@@ -31,8 +40,8 @@ export class ScatterComponent implements OnInit {
     // API call
     return this.http
     // Should be able to replace proxy when putting on gh-pages
-    // Run "lcp --proxyUrl https://api.openweathermap.org/data/2.5/weather" in shell
-    .get<JSON>('http://localhost:8010/proxy?lat=' + lat + '&lon=' + lon + '&appid=a928af4b47141d453a0494c1667ebf55&units=metric');
+    // Run "lcp --proxyUrl https://api.openweathermap.org/data/2.5/weather" in shell for local
+    .get<JSON>('http://localhost:8010/proxy?lat=' + lat + '&lon=' + lon + '&appid=INSERT-API-KEY-HERE&units=metric');
   }
 
   private createSvg(): void{
@@ -49,7 +58,8 @@ export class ScatterComponent implements OnInit {
     
     // Add X axis
     const x = d3.scaleLinear()
-    .domain([ 0, 100]) // Maxes at 100 b/c %humidity goes on X-axis (for now)
+    .domain([d3.min(data, d => d['humidity']),
+            d3.max(data, d => d['humidity'])]) // Maxes at 100 b/c %humidity goes on X-axis (for now)
     .range([ 0, this.width ])
 
     this.svg.append("g")
@@ -63,11 +73,12 @@ export class ScatterComponent implements OnInit {
     .attr("y", this.height + this.margin * 0.8)
     .attr("fill", "currentColor")
     .attr("text-anchor", "middle")
-    .text("Humidity (Percent)"));
+    .text("Humidity (%)"));
 
     // Add Y-axis
     const y = d3.scaleLinear()
-    .domain([ -20, 40 ]) 
+    .domain([d3.min(data, d => d['temp']),
+            d3.max(data, d => d['temp'])]) 
     .range([ this.height, 0 ]);
 
     this.svg.append("g")
@@ -86,16 +97,53 @@ export class ScatterComponent implements OnInit {
     // Add dots
     const dots = this.svg.append("g");
     dots.selectAll("dot")
-    .data(data)
-    .enter()
-    .append("circle")
-    .attr("cx", d => x(d['humidity']))
-    .attr("cy", d => y(d['temp']))
-    .attr("r", 7)
-    .style("opacity", .5)
-    .style("fill", "#10a9e6") // Ask someone to pick a color
+      .data(data)
+      .enter()
+      .append("circle")
+      .attr("cx", d => x(d['humidity']))
+      .attr("cy", d => y(d['temp']))
+      .attr("r", 7)
+      .style("opacity", .5)
+      .style("fill", "#10a9e6")
+      .on("mouseover", (d) => {
+        this.Tooltip.style("opacity", 1);
+      })
+      .on("mousemove", (d) => {
+        this.Tooltip
+          .html("City name")
+          .style("left", (d3.pointer(this)[0]+90) + "px")
+          .style("right", (d3.pointer(this)[1]) + "px");
+      })
+      .on("mouseleave", (d) => {
+        this.Tooltip
+          .transition()
+          .duration(200)
+          .style("opacity", 0);
+      });
     
     console.log("Finished trying graph.");
+  }
+
+  // Three functions that change the tooltip when user hovers / moves / leaves
+
+  private mouseOver(): void {
+    this.Tooltip.style("opacity", 1);
+    // Here might add some code to make the point larger?
+  }
+
+  private mouseMove(): void {
+    this.Tooltip
+      .style("opacity", 1)
+      .html("City name")
+      .style("left", (d3.pointer(this)[0]+90) + "px")
+      .style("right", (d3.pointer(this)[1]) + "px");
+  }
+
+  private mouseLeave(): void {
+    this.Tooltip
+      .transition()
+      .duration(200)
+      .style("opacity", 0);
   }
 
 

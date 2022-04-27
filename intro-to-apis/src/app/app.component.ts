@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+//import { FormGroup, FormControl, Validators } from '@angular/forms';
 // import { HttpClient } from '@angular/common/http'; // add call to API
 // import * as d3 from 'd3';
 // import { DSVRowString } from 'd3';
@@ -11,6 +12,21 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  /*paramList: any = ['feels_like', 'pressure', 'humidity', 'temp_min', 'temp_max', 'sea_level', 'grnd_level'];
+  paramList: any = ['lorem', 'ipsum'];
+
+  form = new FormGroup({
+    units: new FormControl('', Validators.required)
+  });
+
+  get f(){
+    return this.form.controls;
+  }
+
+  submit(){
+    console.log(this.form.value);
+  } */
+
   title = 'intro-to-apis';
 }
 /*
